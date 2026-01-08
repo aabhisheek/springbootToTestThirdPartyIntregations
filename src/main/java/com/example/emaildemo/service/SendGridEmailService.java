@@ -1,7 +1,9 @@
 package com.example.emaildemo.service;
 
+import com.example.emaildemo.dto.EmailAttachment;
 import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Attachments;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.List;
 
 @Service("sendGridEmailService")
 @Slf4j
@@ -52,6 +56,56 @@ public class SendGridEmailService implements EmailService {
         } catch (IOException ex) {
             log.error("Error sending email via SendGrid: {}", ex.getMessage());
             throw new Exception("Failed to send email via SendGrid: " + ex.getMessage());
+        }
+    }
+    
+    @Override
+    public void sendEmailWithAttachments(String to, String subject, String body, List<EmailAttachment> attachments) throws Exception {
+        log.info("Sending email with {} attachment(s) via SendGrid to: {}", 
+                attachments != null ? attachments.size() : 0, to);
+        
+        try {
+            Email from = new Email(fromEmail, fromName);
+            Email toEmail = new Email(to);
+            Content content = new Content("text/html", body);
+            Mail mail = new Mail(from, subject, toEmail, content);
+            
+            // Add attachments
+            if (attachments != null && !attachments.isEmpty()) {
+                for (EmailAttachment attachment : attachments) {
+                    Attachments sgAttachment = new Attachments();
+                    sgAttachment.setFilename(attachment.getFileName());
+                    sgAttachment.setType(attachment.getContentType());
+                    sgAttachment.setDisposition("attachment");
+                    
+                    // Convert byte array to base64 string
+                    String base64Content = Base64.getEncoder().encodeToString(attachment.getFileContent());
+                    sgAttachment.setContent(base64Content);
+                    
+                    mail.addAttachments(sgAttachment);
+                    log.info("Added attachment: {}", attachment.getFileName());
+                }
+            }
+            
+            SendGrid sg = new SendGrid(apiKey);
+            Request request = new Request();
+            
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            
+            Response response = sg.api(request);
+            
+            if (response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
+                log.info("Email with attachments sent successfully via SendGrid. Status: {}", response.getStatusCode());
+            } else {
+                log.error("SendGrid returned status: {} - {}", response.getStatusCode(), response.getBody());
+                throw new Exception("SendGrid returned error status: " + response.getStatusCode());
+            }
+            
+        } catch (IOException ex) {
+            log.error("Error sending email with attachments via SendGrid: {}", ex.getMessage());
+            throw new Exception("Failed to send email with attachments via SendGrid: " + ex.getMessage());
         }
     }
     

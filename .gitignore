@@ -43,3 +43,5 @@ logs/
 
 # Application properties with sensitive data
 application-prod.properties
+application-local.properties
+**/application-local.properties

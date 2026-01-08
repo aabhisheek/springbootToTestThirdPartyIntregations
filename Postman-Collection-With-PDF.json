@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "Spring Boot Email API with PDF Attachments",
+    "description": "Complete API collection for sending emails with PDF attachments via AWS SES and SendGrid",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Email APIs",
+      "item": [
+        {
+          "name": "Send Email via AWS SES (No Attachment)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"subject\": \"Test Email from AWS SES\",\n  \"body\": \"<h1>Hello!</h1><p>This is a test email from AWS SES.</p>\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-ses",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-ses"]
+            }
+          }
+        },
+        {
+          "name": "Send Email via SendGrid (No Attachment)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"subject\": \"Test Email from SendGrid\",\n  \"body\": \"<h1>Hello!</h1><p>This is a test email from SendGrid.</p>\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-sendgrid",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-sendgrid"]
+            }
+          }
+        },
+        {
+          "name": "Send Email with PDF - AWS SES",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"subject\": \"Invoice - Order #12345\",\n  \"body\": \"<html><body><h2>Invoice Attached</h2><p>Dear Customer,</p><p>Please find your invoice attached.</p></body></html>\",\n  \"attachments\": [\n    {\n      \"fileName\": \"invoice.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"base64Content\": \"JVBERi0xLjQKJeLjz9MKMyAwIG9iago8PC9UeXBlIC9QYWdlcyAvS2lkcyBbNCAwIFJdIC9Db3VudCAxID4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL1BhZ2UgL1BhcmVudCAzIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNSAwIFIgL1Jlc291cmNlcyA8PC9Gb250IDw8L0YxIDcgMCBSPj4+Pj4+CmVuZG9iago1IDAgb2JqCjw8L0xlbmd0aCA0NT4+CnN0cmVhbQpCVAovRjEgMjQgVGYKMTAwIDcwMCBUZAooSGVsbG8gV29ybGQhKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCjcgMCBvYmoKPDwvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9UaW1lcy1Sb21hbj4+CmVuZG9iagp4cmVmCjAgOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAxNzQgMDAwMDAgbiAKMDAwMDAwMDMwMSAwMDAwMCBuIAowMDAwMDAwMzk1IDAwMDAwIG4gCjAwMDAwMDA0NzQgMDAwMDAgbiAKdHJhaWxlcgo8PC9TaXplIDggL1Jvb3QgMSAwIFI+PgpzdGFydHhyZWYKNTY1CiUlRU9G\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-ses-with-attachment",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-ses-with-attachment"]
+            }
+          }
+        },
+        {
+          "name": "Send Email with PDF - SendGrid",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"subject\": \"Monthly Report\",\n  \"body\": \"<html><body><h2>Monthly Report</h2><p>Please find the report attached.</p></body></html>\",\n  \"attachments\": [\n    {\n      \"fileName\": \"report.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"base64Content\": \"JVBERi0xLjQKJeLjz9MKMyAwIG9iago8PC9UeXBlIC9QYWdlcyAvS2lkcyBbNCAwIFJdIC9Db3VudCAxID4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL1BhZ2UgL1BhcmVudCAzIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNSAwIFIgL1Jlc291cmNlcyA8PC9Gb250IDw8L0YxIDcgMCBSPj4+Pj4+CmVuZG9iago1IDAgb2JqCjw8L0xlbmd0aCA0NT4+CnN0cmVhbQpCVAovRjEgMjQgVGYKMTAwIDcwMCBUZAooSGVsbG8gV29ybGQhKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCjcgMCBvYmoKPDwvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9UaW1lcy1Sb21hbj4+CmVuZG9iagp4cmVmCjAgOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAxNzQgMDAwMDAgbiAKMDAwMDAwMDMwMSAwMDAwMCBuIAowMDAwMDAwMzk1IDAwMDAwIG4gCjAwMDAwMDA0NzQgMDAwMDAgbiAKdHJhaWxlcgo8PC9TaXplIDggL1Jvb3QgMSAwIFI+PgpzdGFydHhyZWYKNTY1CiUlRU9G\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-sendgrid-with-attachment",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-sendgrid-with-attachment"]
+            }
+          }
+        },
+        {
+          "name": "Send Email with Multiple PDFs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"subject\": \"Multiple Documents\",\n  \"body\": \"<h1>Documents Attached</h1><p>Please review the attached documents.</p>\",\n  \"provider\": \"ses\",\n  \"attachments\": [\n    {\n      \"fileName\": \"document1.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"base64Content\": \"JVBERi0xLjQKJeLjz9MK...\"\n    },\n    {\n      \"fileName\": \"document2.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"base64Content\": \"JVBERi0xLjQKJcOkw7zD...\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-with-attachment",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-with-attachment"]
+            }
+          }
+        },
+        {
+          "name": "Email Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/email/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
