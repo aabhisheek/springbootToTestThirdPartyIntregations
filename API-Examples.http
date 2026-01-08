@@ -1,0 +1,249 @@
+### Spring Boot Email Demo - API Examples
+### Base URL: http://localhost:8080
+
+###############################################
+# USER APIs
+###############################################
+
+### 1. Create User
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1-555-0123",
+  "address": "123 Main Street, New York, NY 10001"
+}
+
+### 2. Get All Users
+GET http://localhost:8080/api/users
+
+### 3. Get User by ID
+GET http://localhost:8080/api/users/1
+
+### 4. Update User
+PUT http://localhost:8080/api/users/1
+Content-Type: application/json
+
+{
+  "name": "John Doe Updated",
+  "email": "john.doe@example.com",
+  "phone": "+1-555-0124",
+  "address": "456 Oak Avenue, New York, NY 10002",
+  "active": true
+}
+
+### 5. Delete User
+DELETE http://localhost:8080/api/users/1
+
+###############################################
+# PRODUCT APIs
+###############################################
+
+### 1. Create Product
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "MacBook Pro 16",
+  "description": "Apple MacBook Pro 16-inch with M3 chip",
+  "price": 2499.99,
+  "stockQuantity": 25,
+  "category": "Electronics"
+}
+
+### 2. Create Another Product
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "iPhone 15 Pro",
+  "description": "Latest iPhone with A17 Pro chip",
+  "price": 999.99,
+  "stockQuantity": 100,
+  "category": "Electronics"
+}
+
+### 3. Get All Products
+GET http://localhost:8080/api/products
+
+### 4. Get Product by ID
+GET http://localhost:8080/api/products/1
+
+### 5. Get Products by Category
+GET http://localhost:8080/api/products/category/Electronics
+
+### 6. Update Product
+PUT http://localhost:8080/api/products/1
+Content-Type: application/json
+
+{
+  "name": "MacBook Pro 16 (2024)",
+  "description": "Apple MacBook Pro 16-inch with M3 Max chip",
+  "price": 2699.99,
+  "stockQuantity": 20,
+  "category": "Electronics",
+  "available": true
+}
+
+### 7. Delete Product
+DELETE http://localhost:8080/api/products/1
+
+###############################################
+# ORDER APIs
+###############################################
+
+### 1. Create Order
+POST http://localhost:8080/api/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 1,
+  "quantity": 2,
+  "notes": "Please deliver between 9 AM - 5 PM"
+}
+
+### 2. Get All Orders
+GET http://localhost:8080/api/orders
+
+### 3. Get Order by ID
+GET http://localhost:8080/api/orders/1
+
+### 4. Get Orders by User ID
+GET http://localhost:8080/api/orders/user/1
+
+### 5. Update Order Status
+PATCH http://localhost:8080/api/orders/1/status?status=CONFIRMED
+
+### 6. Update Order Status to PROCESSING
+PATCH http://localhost:8080/api/orders/1/status?status=PROCESSING
+
+### 7. Update Order Status to SHIPPED
+PATCH http://localhost:8080/api/orders/1/status?status=SHIPPED
+
+### 8. Update Order Status to DELIVERED
+PATCH http://localhost:8080/api/orders/1/status?status=DELIVERED
+
+### 9. Cancel Order
+DELETE http://localhost:8080/api/orders/1
+
+###############################################
+# EMAIL APIs
+###############################################
+
+### 1. Health Check
+GET http://localhost:8080/api/email/health
+
+### 2. Send Email (Default Provider)
+POST http://localhost:8080/api/email/send
+Content-Type: application/json
+
+{
+  "to": "recipient@example.com",
+  "subject": "Welcome to Email Demo App",
+  "body": "<h1>Hello!</h1><p>This is a test email from our Spring Boot application.</p>",
+  "provider": "sendgrid"
+}
+
+### 3. Send Email via AWS SES
+POST http://localhost:8080/api/email/send-ses
+Content-Type: application/json
+
+{
+  "to": "recipient@example.com",
+  "subject": "Test Email via AWS SES",
+  "body": "<h2>AWS SES Email</h2><p>This email was sent using Amazon Simple Email Service.</p>"
+}
+
+### 4. Send Email via SendGrid
+POST http://localhost:8080/api/email/send-sendgrid
+Content-Type: application/json
+
+{
+  "to": "recipient@example.com",
+  "subject": "Test Email via SendGrid",
+  "body": "<h2>SendGrid Email</h2><p>This email was sent using SendGrid API.</p>"
+}
+
+### 5. Send Welcome Email
+POST http://localhost:8080/api/email/send
+Content-Type: application/json
+
+{
+  "to": "newuser@example.com",
+  "subject": "Welcome to Our Platform!",
+  "body": "<html><body><h1>Welcome!</h1><p>Thank you for joining our platform.</p><p>We're excited to have you on board.</p><br><p>Best regards,<br>The Team</p></body></html>"
+}
+
+### 6. Send Order Confirmation Email
+POST http://localhost:8080/api/email/send
+Content-Type: application/json
+
+{
+  "to": "customer@example.com",
+  "subject": "Order Confirmation - Order #12345",
+  "body": "<html><body><h2>Order Confirmed!</h2><p>Your order has been confirmed and is being processed.</p><ul><li>Order ID: 12345</li><li>Total Amount: $2,499.99</li><li>Estimated Delivery: 3-5 business days</li></ul><p>Thank you for your purchase!</p></body></html>"
+}
+
+###############################################
+# Complete Workflow Example
+###############################################
+
+### Step 1: Create a User
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Alice Smith",
+  "email": "alice.smith@example.com",
+  "phone": "+1-555-9876",
+  "address": "789 Pine Street, Los Angeles, CA 90001"
+}
+
+### Step 2: Create a Product
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "Wireless Headphones",
+  "description": "Premium noise-cancelling wireless headphones",
+  "price": 299.99,
+  "stockQuantity": 50,
+  "category": "Audio"
+}
+
+### Step 3: Create an Order (use IDs from steps 1 and 2)
+POST http://localhost:8080/api/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 1,
+  "quantity": 1,
+  "notes": "Gift wrap requested"
+}
+
+### Step 4: Send Order Confirmation Email
+POST http://localhost:8080/api/email/send-sendgrid
+Content-Type: application/json
+
+{
+  "to": "alice.smith@example.com",
+  "subject": "Your Order Has Been Placed!",
+  "body": "<html><body style='font-family: Arial, sans-serif;'><div style='max-width: 600px; margin: 0 auto; padding: 20px;'><h1 style='color: #333;'>Thank You for Your Order!</h1><p>Hi Alice,</p><p>We've received your order and it's being processed.</p><div style='background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;'><h3>Order Details:</h3><p><strong>Product:</strong> Wireless Headphones</p><p><strong>Quantity:</strong> 1</p><p><strong>Total:</strong> $299.99</p></div><p>We'll send you another email once your order ships.</p><p>Best regards,<br><strong>Email Demo Team</strong></p></div></body></html>"
+}
+
+### Step 5: Update Order Status
+PATCH http://localhost:8080/api/orders/1/status?status=CONFIRMED
+
+###############################################
+# Database Access
+###############################################
+
+### Access H2 Console in Browser:
+### http://localhost:8080/h2-console
+### JDBC URL: jdbc:h2:mem:testdb
+### Username: sa
+### Password: (leave blank)
