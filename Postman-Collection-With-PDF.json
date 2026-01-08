@@ -138,6 +138,200 @@
           }
         }
       ]
+    },
+    {
+      "name": "File Upload APIs (Recommended)",
+      "item": [
+        {
+          "name": "Send Email with File Upload - AWS SES",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "to",
+                  "value": "recipient@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "Invoice - Order #12345",
+                  "type": "text"
+                },
+                {
+                  "key": "body",
+                  "value": "<html><body><h2>Invoice Attached</h2><p>Dear Customer,</p><p>Please find your invoice attached to this email.</p><p>Thank you for your business!</p></body></html>",
+                  "type": "text"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Select your PDF file(s) here"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-ses-with-file",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-ses-with-file"]
+            },
+            "description": "Upload PDF files directly without base64 encoding. Simply select files in the 'files' field."
+          }
+        },
+        {
+          "name": "Send Email with File Upload - SendGrid",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "to",
+                  "value": "recipient@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "Monthly Report - Q1 2026",
+                  "type": "text"
+                },
+                {
+                  "key": "body",
+                  "value": "<html><body><h2>Monthly Report</h2><p>Hi Team,</p><p>Please find the monthly report attached.</p><p>Best regards</p></body></html>",
+                  "type": "text"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Select your PDF file(s) here"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-sendgrid-with-file",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-sendgrid-with-file"]
+            },
+            "description": "Upload PDF files directly without base64 encoding. Simply select files in the 'files' field."
+          }
+        },
+        {
+          "name": "Send Email with File Upload - Generic",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "to",
+                  "value": "recipient@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "Document Request",
+                  "type": "text"
+                },
+                {
+                  "key": "body",
+                  "value": "<html><body><h1>Your Documents</h1><p>The requested documents are attached.</p></body></html>",
+                  "type": "text"
+                },
+                {
+                  "key": "provider",
+                  "value": "ses",
+                  "type": "text",
+                  "description": "Choose 'ses' or 'sendgrid'"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Select your PDF file(s) here"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-with-file?provider=ses",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-with-file"],
+              "query": [
+                {
+                  "key": "provider",
+                  "value": "ses",
+                  "description": "Choose 'ses' or 'sendgrid'"
+                }
+              ]
+            },
+            "description": "Upload PDF files and choose email provider dynamically. Select files in the 'files' field."
+          }
+        },
+        {
+          "name": "Send Email with Multiple Files - AWS SES",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "to",
+                  "value": "manager@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "All Reports - January 2026",
+                  "type": "text"
+                },
+                {
+                  "key": "body",
+                  "value": "<html><body><h2>All Reports Attached</h2><p>Please review all the attached reports:</p><ul><li>Sales Report</li><li>Financial Summary</li><li>Inventory Report</li></ul></body></html>",
+                  "type": "text"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "First PDF file"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Second PDF file"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Third PDF file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/email/send-ses-with-file",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "email", "send-ses-with-file"]
+            },
+            "description": "Upload multiple PDF files at once. Add multiple 'files' fields and select different files for each."
+          }
+        }
+      ]
     }
   ]
 }
