@@ -332,6 +332,143 @@
           }
         }
       ]
+    },
+    {
+      "name": "Payment APIs (Razorpay & Stripe)",
+      "item": [
+        {
+          "name": "Razorpay - Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50000,\n  \"currency\": \"INR\",\n  \"customerEmail\": \"test@example.com\",\n  \"customerName\": \"Test User\",\n  \"customerPhone\": \"9999999999\",\n  \"description\": \"Test Order Payment\",\n  \"orderId\": \"order_123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/payments/razorpay/create-order",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "razorpay", "create-order"]
+            },
+            "description": "Create Razorpay order. Amount in paise (50000 = ₹500). Use Test Mode credentials."
+          }
+        },
+        {
+          "name": "Razorpay - Verify Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"order_xxxxxxxxxxxxx\",\n  \"paymentId\": \"pay_xxxxxxxxxxxxx\",\n  \"signature\": \"signature_here\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/payments/razorpay/verify",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "razorpay", "verify"]
+            },
+            "description": "Verify Razorpay payment signature after successful payment"
+          }
+        },
+        {
+          "name": "Razorpay - Get Payment Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/payments/razorpay/pay_xxxxxxxxxxxxx",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "razorpay", "pay_xxxxxxxxxxxxx"]
+            },
+            "description": "Get Razorpay payment details by payment ID"
+          }
+        },
+        {
+          "name": "Stripe - Create Payment Intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 5000,\n  \"currency\": \"USD\",\n  \"customerEmail\": \"test@example.com\",\n  \"customerName\": \"Test User\",\n  \"description\": \"Test Payment\",\n  \"orderId\": \"order_123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/payments/stripe/create-payment-intent",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "stripe", "create-payment-intent"]
+            },
+            "description": "Create Stripe payment intent. Amount in cents (5000 = $50.00). Use Test Mode credentials."
+          }
+        },
+        {
+          "name": "Stripe - Get Payment Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/payments/stripe/pi_xxxxxxxxxxxxx",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "stripe", "pi_xxxxxxxxxxxxx"]
+            },
+            "description": "Get Stripe payment intent details by payment intent ID"
+          }
+        },
+        {
+          "name": "Stripe - Confirm Payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/payments/stripe/pi_xxxxxxxxxxxxx/confirm",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "stripe", "pi_xxxxxxxxxxxxx", "confirm"]
+            },
+            "description": "Confirm Stripe payment intent"
+          }
+        },
+        {
+          "name": "Payment Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/payments/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "payments", "health"]
+            },
+            "description": "Check if payment service is running"
+          }
+        }
+      ]
     }
   ]
 }
