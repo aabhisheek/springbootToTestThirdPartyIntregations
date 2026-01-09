@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Spring Boot Email API with PDF Attachments",
-    "description": "Complete API collection for sending emails with PDF attachments via AWS SES and SendGrid",
+    "name": "Spring Boot Complete API Collection",
+    "description": "Complete API collection for Email (AWS SES/SendGrid), Payments (Razorpay/Stripe), and File Storage (AWS S3)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -466,6 +466,187 @@
               "path": ["api", "payments", "health"]
             },
             "description": "Check if payment service is running"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Storage APIs (AWS S3)",
+      "item": [
+        {
+          "name": "Upload Single File to S3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Select a file to upload (PDF, image, document, etc.)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/storage/upload",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "upload"]
+            },
+            "description": "Upload a single file to AWS S3 bucket. Supports all file types (PDF, images, documents, etc.)"
+          }
+        },
+        {
+          "name": "Upload Multiple Files to S3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "First file"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Second file"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Third file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/storage/upload/multiple",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "upload", "multiple"]
+            },
+            "description": "Upload multiple files to S3 at once. Add multiple 'files' fields as needed."
+          }
+        },
+        {
+          "name": "Download File from S3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/download/1736413200000_a1b2c3d4.pdf",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "download", "1736413200000_a1b2c3d4.pdf"]
+            },
+            "description": "Download a file from S3 using the fileKey. Replace with actual fileKey from upload response."
+          }
+        },
+        {
+          "name": "List All Files in S3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/files",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "files"]
+            },
+            "description": "List all files in the S3 bucket with metadata (name, size, URL, last modified date)"
+          }
+        },
+        {
+          "name": "Get File Metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/metadata/1736413200000_a1b2c3d4.pdf",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "metadata", "1736413200000_a1b2c3d4.pdf"]
+            },
+            "description": "Get metadata for a specific file (name, size, URL, content type, last modified date)"
+          }
+        },
+        {
+          "name": "Generate Presigned URL (Temporary Access)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/presigned-url/1736413200000_a1b2c3d4.pdf?minutes=60",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "presigned-url", "1736413200000_a1b2c3d4.pdf"],
+              "query": [
+                {
+                  "key": "minutes",
+                  "value": "60",
+                  "description": "URL expiration time in minutes (default: 60)"
+                }
+              ]
+            },
+            "description": "Generate a temporary presigned URL for secure file access. URL expires after specified minutes."
+          }
+        },
+        {
+          "name": "Check if File Exists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/exists/1736413200000_a1b2c3d4.pdf",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "exists", "1736413200000_a1b2c3d4.pdf"]
+            },
+            "description": "Check if a file exists in S3 bucket"
+          }
+        },
+        {
+          "name": "Delete File from S3",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/delete/1736413200000_a1b2c3d4.pdf",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "delete", "1736413200000_a1b2c3d4.pdf"]
+            },
+            "description": "Delete a file from S3 bucket using fileKey"
+          }
+        },
+        {
+          "name": "Storage Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/storage/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "storage", "health"]
+            },
+            "description": "Check if storage service is running"
           }
         }
       ]

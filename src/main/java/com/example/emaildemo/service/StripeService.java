@@ -39,8 +39,10 @@ public class StripeService {
                     .setAutomaticPaymentMethods(
                             PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
                                     .setEnabled(true)
+                                    .setAllowRedirects(PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER)
                                     .build()
                     )
+                    .setConfirm(false) // Don't auto-confirm, require manual confirmation
                     .build();
             
             PaymentIntent intent = PaymentIntent.create(params);
@@ -94,7 +96,15 @@ public class StripeService {
         
         try {
             PaymentIntent intent = PaymentIntent.retrieve(paymentIntentId);
-            PaymentIntent confirmedIntent = intent.confirm();
+            
+            // For testing with test mode, we can simulate confirmation
+            // In production, this would be handled by Stripe.js on frontend
+            com.stripe.param.PaymentIntentConfirmParams confirmParams = 
+                com.stripe.param.PaymentIntentConfirmParams.builder()
+                    .setPaymentMethod("pm_card_visa") // Test payment method
+                    .build();
+            
+            PaymentIntent confirmedIntent = intent.confirm(confirmParams);
             
             return PaymentResponse.builder()
                     .paymentId(confirmedIntent.getId())
@@ -103,6 +113,10 @@ public class StripeService {
                     .currency(confirmedIntent.getCurrency().toUpperCase())
                     .status(confirmedIntent.getStatus())
                     .provider("stripe")
+                    .additionalData(Map.of(
+                            "next_action", confirmedIntent.getNextAction() != null ? "required" : "none",
+                            "status_detail", confirmedIntent.getStatus()
+                    ))
                     .build();
             
         } catch (StripeException e) {
